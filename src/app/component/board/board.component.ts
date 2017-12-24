@@ -1,3 +1,4 @@
+import { GameValidatorService } from './../../services/game-validator-service.service';
 import { UserType } from './../../model/UserType';
 import { CellState } from './../../model/CellState';
 import { SingleCell } from './../../model/SingleCell';
@@ -16,7 +17,7 @@ export class BoardComponent implements OnInit {
   private activeUser : UserType; 
   private activeUserName : string;
 
-  constructor() {
+  constructor(private _gameService: GameValidatorService) {
     this.matrix = new Array<Array<number>>();
     this.cellArray = new Array<SingleCell>();
     this.InitTwoDimensionalMatrix();
@@ -76,7 +77,6 @@ export class BoardComponent implements OnInit {
   }
 
   private CheckIfSomeoneWin() : boolean{
-    
-    return false;
+    return this._gameService.CheckIfSomeoneWin(this.matrix, this.cellArray);
   }
 }

@@ -1,4 +1,5 @@
 import { CellState } from "./CellState";
+import { UserType } from "./UserType";
 
 export class SingleCell
 {
@@ -12,11 +13,11 @@ export class SingleCell
     }
     
     
-    private _User : string;
-    public get User() : string {
+    private _User : UserType;
+    public get User() : UserType {
         return this._User;
     }
-    public set User(v : string) {
+    public set User(v : UserType) {
         this._User = v;
     }
     

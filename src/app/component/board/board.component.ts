@@ -16,6 +16,8 @@ export class BoardComponent implements OnInit {
   private cellArray : Array<SingleCell>;
   private activeUser : UserType; 
   private activeUserName : string;
+  private winner : UserType;
+  private activeGame : boolean;
 
   constructor(private _gameService: GameValidatorService) {
     this.matrix = new Array<Array<number>>();
@@ -26,21 +28,19 @@ export class BoardComponent implements OnInit {
   ngOnInit() {
     this.activeUser = UserType.User;
     this.activeUserName = UserType[this.activeUser];
+    this.activeGame = true;
   }
 
   private CellClicked (cell) : void{
-    if (this.cellArray[cell].State === CellState.Active){
+    if (this.cellArray[cell].State === CellState.Active && this.activeGame === true){
       this.cellArray[cell].State = CellState.Deactive;
       this.cellArray[cell].DisplayCharacter = "X";
+      this.cellArray[cell].User = this.activeUser;
       this.MoveNext(cell);
     }
   }
 
   private MoveNext(cell){
-    if (this.CheckIfSomeoneWin()){
-      return;
-    }
-    
     if (this.activeUser === UserType.User)
     {
       this.activeUser = UserType.Computer;
@@ -50,6 +50,11 @@ export class BoardComponent implements OnInit {
       this.cellArray[cell].DisplayCharacter = "X";
     }
     this.activeUserName = UserType[this.activeUser];
+
+    if (this.CheckIfSomeoneWin()){
+      this.DisplayWinnerInforation();
+      return;
+    }
   }
   
   private InitTwoDimensionalMatrix () : void 
@@ -69,14 +74,26 @@ export class BoardComponent implements OnInit {
      console.log(this.cellArray);   
   }
 
+  private NewGame() : void {
+    this.activeGame = true;
+  }
+
   private ResetGame() : void{
     for (let cell = 0; cell < this.cellArray.length; cell++) {
       this.cellArray[cell].DisplayCharacter = "";
       this.cellArray[cell].State = CellState.Active;
     }
+    console.clear();
+    this.activeGame = false;
   }
 
   private CheckIfSomeoneWin() : boolean{
     return this._gameService.CheckIfSomeoneWin(this.matrix, this.cellArray);
+  }
+
+  private DisplayWinnerInforation() {
+    this.winner = this._gameService.GetWinner();
+    this.activeGame = false;
+    console.log("Winner: ", UserType[this.winner]);
   }
 }

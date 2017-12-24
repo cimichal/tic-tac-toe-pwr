@@ -6,8 +6,7 @@ import { BoardComponent } from './component/board/board.component';
 @NgModule({
   declarations: [
     AppComponent,
-    BoardComponent,
-    SquareComponent
+    BoardComponent
   ],
   imports: [
     BrowserModule

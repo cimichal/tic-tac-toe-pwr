@@ -15,7 +15,6 @@ export class BoardComponent implements OnInit {
   private cellArray : Array<SingleCell>;
   private activeUser : UserType; 
   private activeUserName : string;
-  private gameTitle : string = "Tic Tac Toe";
 
   constructor() {
     this.matrix = new Array<Array<number>>();
@@ -37,9 +36,13 @@ export class BoardComponent implements OnInit {
   }
 
   private MoveNext(cell){
+    if (this.CheckIfSomeoneWin()){
+      return;
+    }
+    
     if (this.activeUser === UserType.User)
     {
-      this.activeUser = UserType.Compouter;
+      this.activeUser = UserType.Computer;
       this.cellArray[cell].DisplayCharacter = "Y";
     }else{
       this.activeUser = UserType.User;
@@ -48,12 +51,6 @@ export class BoardComponent implements OnInit {
     this.activeUserName = UserType[this.activeUser];
   }
   
-  private GetColor (cell) {
-    if (this.cellArray[cell].State === CellState.Deactive){
-      return "grey ";
-    }
-  } 
-
   private InitTwoDimensionalMatrix () : void 
   {
      for (let row = 0; row < this.boardSize; row++) {
@@ -76,5 +73,10 @@ export class BoardComponent implements OnInit {
       this.cellArray[cell].DisplayCharacter = "";
       this.cellArray[cell].State = CellState.Active;
     }
+  }
+
+  private CheckIfSomeoneWin() : boolean{
+    
+    return false;
   }
 }

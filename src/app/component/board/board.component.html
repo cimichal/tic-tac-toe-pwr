@@ -1,0 +1,23 @@
+<div class="col-lg-8 col-md-8 col-sm-8">
+    <div class="row" *ngFor="let row of matrix">
+        <div class="col" *ngFor="let col of row" (click)="CellClicked(col)">
+            {{ cellArray[col].DisplayCharacter }}
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-4 col-md-4 col-sm-4">
+    <div class="row">
+        <div class="well">
+            <span class="active-user">
+            Active :
+        </span>
+            <span class="active-user-data"> 
+            {{ activeUserName }}
+        </span>
+        </div>
+    </div>
+    <div class="row">
+        <button type="button" class="btn btn-primary btn-reset" (click)="ResetGame()">Reset game</button>
+    </div>
+</div>

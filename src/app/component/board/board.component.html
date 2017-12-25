@@ -13,8 +13,8 @@
             <span class="game-desc-data">{{ activeGame }}</span>
             <div *ngFor="let user of UserTypeKeys()">
                 <span class="user-desc">{{ user }}: </span>
-                <span class="user-desc-data" *ngIf="user == 'Computer'">Y</span>
-                <span class="user-desc-data" *ngIf="user == 'User'">X</span>
+                <span class="user-desc-data" *ngIf="user == 'Computer'">X</span>
+                <span class="user-desc-data" *ngIf="user == 'User'">Y</span>
             </div>
         </div>
     </div>

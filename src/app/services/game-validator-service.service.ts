@@ -90,10 +90,6 @@ export class GameValidatorService {
           continue;
         }
 
-        if (row !== 0 && columnCounter === 0){
-          continue; // brak pierwszego zaznaczego elementu
-        }
-
         if (columnCounter === 0){
           columnCounter++; // dodaj pierwszy element
           userTypeOfPreviouseColumnCell = cell.User;
@@ -105,6 +101,7 @@ export class GameValidatorService {
 
         if (columnCounter === this.boardSize){
           this.whoWin = userTypeOfPreviouseColumnCell;
+          console.log(UserType[userTypeOfPreviouseColumnCell]);
           return true;
         }
       }

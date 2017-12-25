@@ -5,7 +5,7 @@ export class GlobalDataService {
 
   private boardSize : number; 
   constructor() {
-    this.boardSize  = 5;
+    this.boardSize  = 3;
    }
 
    public GetBoardSize(){

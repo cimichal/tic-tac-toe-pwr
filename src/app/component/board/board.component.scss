@@ -8,6 +8,10 @@
     float: left;
 }
 
+span {
+    margin: auto 2px;
+}
+
 .row {
     clear: both;
 }
@@ -25,4 +29,28 @@
     width: 100%;
     height: 50px;
     font-size: 15px;
+}
+
+.well-default {
+    background-color: rgb(164, 168, 164);
+}
+
+.game-desc {
+    font-size: 20px;
+    margin: auto 0;
+}
+
+.game-desc-data {
+    font-size: 20px;
+    color: rgb(97, 26, 26);
+}
+
+.user-desc {
+    font-size: 16px;
+    margin: auto 0;
+}
+
+.user-desc-data {
+    font-size: 16px;
+    color: rgb(76, 1, 173);
 }

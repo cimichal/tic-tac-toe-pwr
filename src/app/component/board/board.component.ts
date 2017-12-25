@@ -87,6 +87,7 @@ export class BoardComponent implements OnInit {
     }
     console.clear();
     this.activeGame = false;
+    this.winner = undefined;
   }
 
   private CheckIfSomeoneWin() : boolean{
@@ -97,5 +98,25 @@ export class BoardComponent implements OnInit {
     this.winner = this._gameService.GetWinner();
     this.activeGame = false;
     console.log("Winner: ", UserType[this.winner]);
+  }
+
+  private UserTypeKeys(): Array<string>{
+    let array = new Array<string>();
+    let keys = Object.keys(UserType);
+
+    for (let item = 0; item < keys.length; item++) {
+      const element = keys[item];
+      array.push(element);
+    }
+
+    return array.slice(array.length / 2, array.length);
+  }
+
+  private GetWinnerName(): string {
+    if(this.winner !== undefined){
+      return UserType[this.winner];
+    }
+
+    return "";
   }
 }

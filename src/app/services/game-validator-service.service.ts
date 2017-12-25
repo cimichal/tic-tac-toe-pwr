@@ -1,14 +1,17 @@
 import { UserType } from './../model/UserType';
 import { Injectable } from '@angular/core';
 import { SingleCell } from '../model/SingleCell';
+import { GlobalDataService } from './global-data.service';
 
 @Injectable()
 export class GameValidatorService {
 
-  private boardSize : number = 3; 
+  private boardSize : number; 
   private whoWin : UserType;
   
-  constructor() { }
+  constructor(private _globalData: GlobalDataService) { 
+    this.boardSize = this._globalData.GetBoardSize();
+  }
 
   public CheckIfSomeoneWin (matrix : Array<Array<number>>, cellArray : Array<SingleCell>) : boolean{
     if (this.ValidateRows(matrix, cellArray)){

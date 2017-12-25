@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BoardComponent } from './component/board/board.component';
+import { GlobalDataService } from './services/global-data.service';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { BoardComponent } from './component/board/board.component';
     BrowserModule
   ],
   providers: [
-    GameValidatorService
+    GameValidatorService,
+    GlobalDataService
   ],
   bootstrap: [AppComponent]
 })

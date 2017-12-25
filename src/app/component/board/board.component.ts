@@ -1,3 +1,4 @@
+import { GlobalDataService } from './../../services/global-data.service';
 import { GameValidatorService } from './../../services/game-validator-service.service';
 import { UserType } from './../../model/UserType';
 import { CellState } from './../../model/CellState';
@@ -11,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BoardComponent implements OnInit {
 
-  private boardSize : number = 3; 
+  private boardSize : number; 
   private matrix : Array<Array<number>>;
   private cellArray : Array<SingleCell>;
   private activeUser : UserType; 
@@ -19,7 +20,8 @@ export class BoardComponent implements OnInit {
   private winner : UserType;
   private activeGame : boolean;
 
-  constructor(private _gameService: GameValidatorService) {
+  constructor(private _gameService: GameValidatorService, private _globalData: GlobalDataService) {
+    this.boardSize = this._globalData.GetBoardSize();
     this.matrix = new Array<Array<number>>();
     this.cellArray = new Array<SingleCell>();
     this.InitTwoDimensionalMatrix();

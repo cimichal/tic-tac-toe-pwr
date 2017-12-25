@@ -18,6 +18,10 @@ export class GameValidatorService {
       return true;
     }
     
+    if (this.ValidateColumns(matrix, cellArray)){
+      return true;
+    }
+
     return false;
   }
 
@@ -64,11 +68,47 @@ export class GameValidatorService {
           return true;
         }
       }
-
-      console.log("Row ", row ," -> User cell: ", userCellCounter);
-      console.log("Row ", row , "-> Computer cell: ", computerCellCounter);
+      // console.log("Row ", row ," -> User cell: ", userCellCounter);
+      // console.log("Row ", row , "-> Computer cell: ", computerCellCounter);
     } 
     
+    return false;
+  }
+
+  private ValidateColumns(matrix : Array<Array<number>>, cellArray : Array<SingleCell>) : boolean{
+    
+    for (let col = 0; col < this._globalData.GetBoardSize(); col++) {
+      var column = col;
+      var columnCounter: number = 0;
+      var userTypeOfPreviouseColumnCell : UserType;
+
+      for (let row = 0; row < matrix.length; row++) {
+        let cell = cellArray[matrix[row][col]];
+        
+        if (cell.DisplayCharacter === "" || cell.State === undefined || cell.User === undefined)
+        {
+          continue;
+        }
+
+        if (row !== 0 && columnCounter === 0){
+          continue; // brak pierwszego zaznaczego elementu
+        }
+
+        if (columnCounter === 0){
+          columnCounter++; // dodaj pierwszy element
+          userTypeOfPreviouseColumnCell = cell.User;
+        }else{
+          if (cell.User === userTypeOfPreviouseColumnCell){
+            columnCounter++;
+          }
+        }
+
+        if (columnCounter === this.boardSize){
+          this.whoWin = userTypeOfPreviouseColumnCell;
+          return true;
+        }
+      }
+    }
     return false;
   }
  }

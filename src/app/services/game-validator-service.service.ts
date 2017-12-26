@@ -27,7 +27,11 @@ export class GameValidatorService {
       return true;
     }
 
-    if (this.ValidateDiagonals(matrix, cellArray)){
+    if (this.ValidateLeftDiagonals(matrix, cellArray)){
+      return true;
+    }
+
+    if (this.ValidateRightDiagonals(matrix, cellArray)){
       return true;
     }
 
@@ -77,8 +81,6 @@ export class GameValidatorService {
           return true;
         }
       }
-      // console.log("Row ", row ," -> User cell: ", userCellCounter);
-      // console.log("Row ", row , "-> Computer cell: ", computerCellCounter);
     } 
     
     return false;
@@ -118,35 +120,66 @@ export class GameValidatorService {
     return false;
   }
 
-  private ValidateDiagonals(matrix : Array<Array<number>>, cellArray : Array<SingleCell>) : boolean{
+  private ValidateRightDiagonals(matrix : Array<Array<number>>, cellArray : Array<SingleCell>) : boolean{
+    let rightDiagonalRow : number = 0;
+    let rightDiagonalCol : number = this._globalData.GetBoardSize();
+    let rightDiagonalCell : SingleCell;
+    var columnCounterDiagonalRight: number = 0;
+    var userTypeOfPreviouseColumnCellDiagonalRight : UserType;
+    
+    for (let row = 0; row < this._globalData.GetBoardSize(); row++) {
+ 
+      rightDiagonalRow = row;
+      rightDiagonalCol = this.boardSize - 1 - row;
+
+      rightDiagonalCell = cellArray[matrix[rightDiagonalRow][rightDiagonalCol]];
+
+      if (rightDiagonalCell.DisplayCharacter === "" || rightDiagonalCell.State === undefined || rightDiagonalCell.User === undefined)
+      {
+        return false;
+      }
+
+      if (rightDiagonalCell.Index === matrix[0][this.boardSize-1] && rightDiagonalCell.State === CellState.Deactive)
+      {
+        columnCounterDiagonalRight++;
+        userTypeOfPreviouseColumnCellDiagonalRight = rightDiagonalCell.User;
+        continue;
+      }
+
+      if (rightDiagonalCell.User === userTypeOfPreviouseColumnCellDiagonalRight){
+        columnCounterDiagonalRight++;
+      }
+
+      if (columnCounterDiagonalRight === this.boardSize){
+        this.whoWin = userTypeOfPreviouseColumnCellDiagonalRight;
+        return true;
+      }
+    }
+    
+    return false;
+  }
+
+  private ValidateLeftDiagonals(matrix : Array<Array<number>>, cellArray : Array<SingleCell>) : boolean{
       let leftDiagonalRow : number = 0;
       let leftDiagonalCol : number = 0;
-      let rightDiagonalRow : number = 0;
-      let rightDiagonalCol : number = this._globalData.GetBoardSize();
-
       let leftDiagonalCell : SingleCell;
-      let rightDiagonalCell : SingleCell;
-      
       var columnCounterDiagonalLeft: number = 0;
-      var columnCounterDiagonalRight: number = 0;
-      
       var userTypeOfPreviouseColumnCellDiagonalLeft : UserType;
-      var userTypeOfPreviouseColumnCellDiagonalRight : UserType;
 
     for (let row = 0; row < this._globalData.GetBoardSize(); row++) {
       leftDiagonalRow = row;
       leftDiagonalCol = row;
 
       leftDiagonalCell = cellArray[matrix[leftDiagonalRow][leftDiagonalCol]];
-      
-      console.log("Komorka: ", leftDiagonalCell);
 
       if (leftDiagonalCell.DisplayCharacter === "" || leftDiagonalCell.State === undefined || leftDiagonalCell.User === undefined)
       {
         return false;
       }
 
-      if (leftDiagonalCell.Index === matrix[0][0] && leftDiagonalCell.State === CellState.Deactive){
+      if (leftDiagonalCell.Index === matrix[0][0] && leftDiagonalCell.State === CellState.Deactive)
+      {
+
         columnCounterDiagonalLeft++;
         userTypeOfPreviouseColumnCellDiagonalLeft = leftDiagonalCell.User;
         continue;

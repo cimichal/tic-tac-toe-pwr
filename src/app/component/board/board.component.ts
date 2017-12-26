@@ -77,6 +77,7 @@ export class BoardComponent implements OnInit {
   }
 
   private NewGame() : void {
+    this.ResetGame();
     this.activeGame = true;
   }
 

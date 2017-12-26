@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BoardComponent } from './component/board/board.component';
 import { GlobalDataService } from './services/global-data.service';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { GlobalDataService } from './services/global-data.service';
     BoardComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
   providers: [
     GameValidatorService,

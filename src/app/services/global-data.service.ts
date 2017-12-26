@@ -16,4 +16,9 @@ export class GlobalDataService {
 
      return this.boardSize;
    };
+
+   public UpdateBoardSize(boardSize : number)
+   {
+     this.boardSize = boardSize; 
+   }
 }

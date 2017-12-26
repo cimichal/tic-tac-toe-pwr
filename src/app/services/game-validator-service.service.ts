@@ -1,6 +1,7 @@
+import { CellState } from './../model/CellState';
+import { SingleCell } from './../model/SingleCell';
 import { UserType } from './../model/UserType';
 import { Injectable } from '@angular/core';
-import { SingleCell } from '../model/SingleCell';
 import { GlobalDataService } from './global-data.service';
 
 @Injectable()
@@ -13,12 +14,20 @@ export class GameValidatorService {
     this.boardSize = this._globalData.GetBoardSize();
   }
 
+  public UpdateBoardSize (){
+    this.boardSize = this._globalData.GetBoardSize();
+  }
+
   public CheckIfSomeoneWin (matrix : Array<Array<number>>, cellArray : Array<SingleCell>) : boolean{
     if (this.ValidateRows(matrix, cellArray)){
       return true;
     }
     
     if (this.ValidateColumns(matrix, cellArray)){
+      return true;
+    }
+
+    if (this.ValidateDiagonals(matrix, cellArray)){
       return true;
     }
 
@@ -106,6 +115,53 @@ export class GameValidatorService {
         }
       }
     }
+    return false;
+  }
+
+  private ValidateDiagonals(matrix : Array<Array<number>>, cellArray : Array<SingleCell>) : boolean{
+      let leftDiagonalRow : number = 0;
+      let leftDiagonalCol : number = 0;
+      let rightDiagonalRow : number = 0;
+      let rightDiagonalCol : number = this._globalData.GetBoardSize();
+
+      let leftDiagonalCell : SingleCell;
+      let rightDiagonalCell : SingleCell;
+      
+      var columnCounterDiagonalLeft: number = 0;
+      var columnCounterDiagonalRight: number = 0;
+      
+      var userTypeOfPreviouseColumnCellDiagonalLeft : UserType;
+      var userTypeOfPreviouseColumnCellDiagonalRight : UserType;
+
+    for (let row = 0; row < this._globalData.GetBoardSize(); row++) {
+      leftDiagonalRow = row;
+      leftDiagonalCol = row;
+
+      leftDiagonalCell = cellArray[matrix[leftDiagonalRow][leftDiagonalCol]];
+      
+      console.log("Komorka: ", leftDiagonalCell);
+
+      if (leftDiagonalCell.DisplayCharacter === "" || leftDiagonalCell.State === undefined || leftDiagonalCell.User === undefined)
+      {
+        return false;
+      }
+
+      if (leftDiagonalCell.Index === matrix[0][0] && leftDiagonalCell.State === CellState.Deactive){
+        columnCounterDiagonalLeft++;
+        userTypeOfPreviouseColumnCellDiagonalLeft = leftDiagonalCell.User;
+        continue;
+      }
+
+      if (leftDiagonalCell.User === userTypeOfPreviouseColumnCellDiagonalLeft){
+        columnCounterDiagonalLeft++;
+      }
+
+      if (columnCounterDiagonalLeft === this.boardSize){
+        this.whoWin = userTypeOfPreviouseColumnCellDiagonalLeft;
+        return true;
+      }
+    }
+    
     return false;
   }
  }

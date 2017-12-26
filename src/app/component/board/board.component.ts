@@ -78,6 +78,11 @@ export class BoardComponent implements OnInit {
 
   private NewGame() : void {
     this.ResetGame();
+    this.matrix = new Array<Array<number>>();
+    this.cellArray = new Array<SingleCell>();
+    this.InitTwoDimensionalMatrix();
+    this._globalData.UpdateBoardSize(this.boardSize);
+    this._gameService.UpdateBoardSize();
     this.activeGame = true;
   }
 

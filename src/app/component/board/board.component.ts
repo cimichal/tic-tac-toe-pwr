@@ -1,3 +1,4 @@
+import { CellCoordinator } from './../../model/CellCoordinator';
 import { GlobalDataService } from './../../services/global-data.service';
 import { GameValidatorService } from './../../services/game-validator-service.service';
 import { UserType } from './../../model/UserType';
@@ -47,6 +48,7 @@ export class BoardComponent implements OnInit {
     {
       this.activeUser = UserType.Computer;
       this.cellArray[cell].DisplayCharacter = "Y";
+      this.PredicatedComputerMove(cell);
     }else{
       this.activeUser = UserType.User;
       this.cellArray[cell].DisplayCharacter = "X";
@@ -59,6 +61,27 @@ export class BoardComponent implements OnInit {
     }
   }
   
+  private PredicatedComputerMove(currentCellIndex : number) : void{
+    let currentCellXY = this.GetCoordinateOfCurrentCell(currentCellIndex);
+  }
+
+  private GetCoordinateOfCurrentCell(currentCellIndex : number) : CellCoordinator
+  { 
+    let currentCellCoordinate = new Array<Array<number>>();
+
+    for (let row = 0; row < this.boardSize; row++) {
+      for (let col = 0; col < this.boardSize; col++) {
+        const element = this.matrix[row][col];
+        if (element === currentCellIndex){
+          let cellCord = new CellCoordinator(row, col);
+          return cellCord;
+        } 
+      }      
+    }
+
+    return new CellCoordinator(0,0);
+  }
+
   private InitTwoDimensionalMatrix () : void 
   {
      for (let row = 0; row < this.boardSize; row++) {

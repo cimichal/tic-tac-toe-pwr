@@ -34,13 +34,24 @@ export class BoardComponent implements OnInit {
     this.activeGame = true;
   }
 
-  private CellClicked (cell) : void{
-    if (this.cellArray[cell].State === CellState.Active && this.activeGame === true){
-      this.cellArray[cell].State = CellState.Deactive;
-      this.cellArray[cell].DisplayCharacter = "X";
-      this.cellArray[cell].User = this.activeUser;
-      this.MoveNext(cell);
+  private CellClicked (cellIndex : number) : void{
+    let cell = this.cellArray[cellIndex];
+    if (cell.State === CellState.Active && this.activeGame === true){
+      this.MakeMove(cell.Index);
     }
+  }
+
+  private MakeMove (cellIndex : number)
+  {
+    let cell = this.cellArray[cellIndex];
+    if (cell == undefined || cell.State === undefined){
+      return;
+    }
+
+    cell.State = CellState.Deactive;
+    cell.DisplayCharacter = "X";
+    cell.User = this.activeUser;
+    this.MoveNext(cellIndex);
   }
 
   private MoveNext(cell){
@@ -48,7 +59,8 @@ export class BoardComponent implements OnInit {
     {
       this.activeUser = UserType.Computer;
       this.cellArray[cell].DisplayCharacter = "Y";
-      this.PredicatedComputerMove(cell);
+      let predicatedMoveIndexCell = this.PredicatedComputerMove(cell);
+      this.MakeMove(predicatedMoveIndexCell);
     }else{
       this.activeUser = UserType.User;
       this.cellArray[cell].DisplayCharacter = "X";
@@ -61,17 +73,59 @@ export class BoardComponent implements OnInit {
     }
   }
   
-  private PredicatedComputerMove(currentCellIndex : number) : void{
+  private PredicatedComputerMove(currentCellIndex : number) {
     let currentCellXY = this.GetCoordinateOfCurrentCell(currentCellIndex);
-    let predicatedMove = [[currentCellXY.row-1][currentCellXY.col-1],
-                          [currentCellXY.row-1][currentCellXY.col],
-                          [currentCellXY.row][currentCellXY.col-1],
-                          [currentCellXY.row-1][currentCellXY.col+1],
-                          [currentCellXY.row][currentCellXY.col+1],
-                          [currentCellXY.row+1][currentCellXY.col-1],
-                          [currentCellXY.row+1][currentCellXY.col],
-                          [currentCellXY.row+1][currentCellXY.col+1]
-                        ];
+    let predicatedMove = new Array<CellCoordinator>(
+                          new CellCoordinator(currentCellXY.row-1, currentCellXY.col-1),
+                          new CellCoordinator(currentCellXY.row-1, currentCellXY.col),
+                          new CellCoordinator(currentCellXY.row, currentCellXY.col-1),
+                          new CellCoordinator(currentCellXY.row-1, currentCellXY.col+1),
+                          new CellCoordinator(currentCellXY.row, currentCellXY.col+1),
+                          new CellCoordinator(currentCellXY.row+1, currentCellXY.col-1),
+                          new CellCoordinator(currentCellXY.row+1, currentCellXY.col),
+                          new CellCoordinator(currentCellXY.row+1, currentCellXY.col+1)
+                        );
+    let possibleMove = [];
+
+    for (let moveNext = 0; moveNext < predicatedMove.length; moveNext++) {
+      const element = predicatedMove[moveNext];
+      
+      if (element.col < 0 || element.col >= this.boardSize || element.row < 0 || element.row >= this.boardSize)
+      {
+        continue;
+      }
+
+      let moveNextCell = this.matrix[element.row][element.col];
+      
+      if (this.cellArray[moveNext] === undefined || this.cellArray[moveNext] === undefined)
+      {
+        continue;
+      }
+
+      if(this.cellArray[moveNextCell].State === CellState.Active){
+        possibleMove.push(moveNextCell);
+      }      
+    }
+
+    if (possibleMove.length === 0){
+      let indexOfEmptyField = this.CheckIfMatrixHasEmptyField();
+      if (indexOfEmptyField !== -1){
+        possibleMove.push(indexOfEmptyField);
+      }
+    }
+
+    return possibleMove[0];
+  }
+
+  private CheckIfMatrixHasEmptyField() : number{
+    for (let item = 0; item < this.cellArray.length; item++) {
+      const element = this.cellArray[item];
+      if (element.State === CellState.Active){
+        return element.Index;
+      }
+    }
+
+    return -1;
   }
 
   private GetCoordinateOfCurrentCell(currentCellIndex : number) : CellCoordinator

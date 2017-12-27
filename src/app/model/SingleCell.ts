@@ -38,6 +38,15 @@ export class SingleCell
     public set Index(v : number) {
         this._Index = v;
     }
+
     
+    private _IsWinningCell : boolean;
+    public get IsWinningCell() : boolean {
+        return this._IsWinningCell;
+    }
+    public set IsWinningCell(v : boolean) {
+        this._IsWinningCell = v;
+    }
+      
     
 }

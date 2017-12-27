@@ -147,28 +147,31 @@ export class BoardComponent implements OnInit {
 
   private InitTwoDimensionalMatrix () : void 
   {
-     for (let row = 0; row < this.boardSize; row++) {
-       this.matrix[row] = [];
-       for (let col = 0; col < this.boardSize; col++) {
-         let index = col + row * this.boardSize;
-         this.matrix[row][col] = index;
-         this.cellArray[index] = new SingleCell();
-         this.cellArray[index].Index = index;
-         this.cellArray[index].State = CellState.Active
-       }
-     }
+    this.matrix = new Array<Array<number>>();
+    this.cellArray = new Array<SingleCell>();
+    console.log("Board size -> : ", this.boardSize );
+    console.log("Before matrix: ", this.matrix);
+    console.log("Before arrat: ",this.cellArray); 
 
-     console.log(this.matrix);
-     console.log(this.cellArray);   
+    for (let row = 0; row < this.boardSize; row++) {
+      this.matrix[row] = [];
+      for (let col = 0; col < this.boardSize; col++) {
+        let index = col + row * this.boardSize;
+        this.matrix[row][col] = index;
+        this.cellArray[index] = new SingleCell();
+        this.cellArray[index].Index = index;
+        this.cellArray[index].State = CellState.Active
+      }
+    }
+
+    console.log(this.matrix);
+    console.log(this.cellArray);   
   }
 
   private NewGame() : void {
-    this.ResetGame();
     this.matrix = new Array<Array<number>>();
     this.cellArray = new Array<SingleCell>();
     this.InitTwoDimensionalMatrix();
-    this._globalData.UpdateBoardSize(this.boardSize);
-    this._gameService.UpdateBoardSize();
     this.activeGame = true;
   }
 
@@ -210,5 +213,10 @@ export class BoardComponent implements OnInit {
     }
 
     return "";
+  }
+
+  private ResizeMatrix() : void{
+    this._gameService.UpdateBoardSize(this.boardSize);
+    this.InitTwoDimensionalMatrix();
   }
 }

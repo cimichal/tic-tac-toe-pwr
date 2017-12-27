@@ -11,14 +11,18 @@ export class GameValidatorService {
   private whoWin : UserType;
   
   constructor(private _globalData: GlobalDataService) { 
-    this.boardSize = this._globalData.GetBoardSize();
+    this.boardSize = 5;
   }
 
-  public UpdateBoardSize (){
-    this.boardSize = this._globalData.GetBoardSize();
+  public UpdateBoardSize (boardSize : number){
+    this.boardSize = Number(boardSize);
+    console.log("Board size: ", this.boardSize);
   }
 
   public CheckIfSomeoneWin (matrix : Array<Array<number>>, cellArray : Array<SingleCell>) : boolean{
+    console.log("validation -> ",matrix);
+    console.log("validation cell ->", cellArray);
+
     if (this.ValidateRows(matrix, cellArray)){
       return true;
     }
@@ -88,7 +92,7 @@ export class GameValidatorService {
 
   private ValidateColumns(matrix : Array<Array<number>>, cellArray : Array<SingleCell>) : boolean{
     
-    for (let col = 0; col < this._globalData.GetBoardSize(); col++) {
+    for (let col = 0; col < this.boardSize; col++) {
       var column = col;
       var columnCounter: number = 0;
       var userTypeOfPreviouseColumnCell : UserType;
@@ -122,12 +126,12 @@ export class GameValidatorService {
 
   private ValidateRightDiagonals(matrix : Array<Array<number>>, cellArray : Array<SingleCell>) : boolean{
     let rightDiagonalRow : number = 0;
-    let rightDiagonalCol : number = this._globalData.GetBoardSize();
+    let rightDiagonalCol : number = this.boardSize;
     let rightDiagonalCell : SingleCell;
     var columnCounterDiagonalRight: number = 0;
     var userTypeOfPreviouseColumnCellDiagonalRight : UserType;
     
-    for (let row = 0; row < this._globalData.GetBoardSize(); row++) {
+    for (let row = 0; row < this.boardSize; row++) {
  
       rightDiagonalRow = row;
       rightDiagonalCol = this.boardSize - 1 - row;
@@ -166,7 +170,7 @@ export class GameValidatorService {
       var columnCounterDiagonalLeft: number = 0;
       var userTypeOfPreviouseColumnCellDiagonalLeft : UserType;
 
-    for (let row = 0; row < this._globalData.GetBoardSize(); row++) {
+    for (let row = 0; row < this.boardSize; row++) {
       leftDiagonalRow = row;
       leftDiagonalCol = row;
 

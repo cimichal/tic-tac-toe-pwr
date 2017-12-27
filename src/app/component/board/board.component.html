@@ -30,7 +30,11 @@
     </div>
     <div class="row">
         <label>Board size: </label>
-        <input class="input-lg" [(ngModel)]="boardSize">
+        <input class="input-sm" [(ngModel)]="boardSize" style="width: 50px;">
+    </div>
+    <div class="clearfix"><br/></div>
+    <div class="row">
+        <button type="button" class="btn btn-default btn-reset" (click)="ResizeMatrix()">Resize board</button>
     </div>
     <div class="clearfix"><br/></div>
     <div class="row">

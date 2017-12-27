@@ -63,6 +63,15 @@ export class BoardComponent implements OnInit {
   
   private PredicatedComputerMove(currentCellIndex : number) : void{
     let currentCellXY = this.GetCoordinateOfCurrentCell(currentCellIndex);
+    let predicatedMove = [[currentCellXY.row-1][currentCellXY.col-1],
+                          [currentCellXY.row-1][currentCellXY.col],
+                          [currentCellXY.row][currentCellXY.col-1],
+                          [currentCellXY.row-1][currentCellXY.col+1],
+                          [currentCellXY.row][currentCellXY.col+1],
+                          [currentCellXY.row+1][currentCellXY.col-1],
+                          [currentCellXY.row+1][currentCellXY.col],
+                          [currentCellXY.row+1][currentCellXY.col+1]
+                        ];
   }
 
   private GetCoordinateOfCurrentCell(currentCellIndex : number) : CellCoordinator

@@ -13,13 +13,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BoardComponent implements OnInit {
 
-  private boardSize : number; 
-  private matrix : Array<Array<number>>;
-  private cellArray : Array<SingleCell>;
-  private activeUser : UserType; 
-  private activeUserName : string;
-  private winner : UserType;
-  private activeGame : boolean;
+  public boardSize : number; 
+  public matrix : Array<Array<number>>;
+  public cellArray : Array<SingleCell>;
+  public activeUser : UserType; 
+  public activeUserName : string;
+  public winner : UserType;
+  public activeGame : boolean;
 
   constructor(private _gameService: GameValidatorService, private _globalData: GlobalDataService) {
     this.boardSize = this._globalData.GetBoardSize();
@@ -168,7 +168,7 @@ export class BoardComponent implements OnInit {
     console.log(this.cellArray);   
   }
 
-  private NewGame() : void {
+  public NewGame() : void {
     this.matrix = new Array<Array<number>>();
     this.cellArray = new Array<SingleCell>();
     this.InitTwoDimensionalMatrix();
@@ -195,7 +195,7 @@ export class BoardComponent implements OnInit {
     console.log("Winner: ", UserType[this.winner]);
   }
 
-  private UserTypeKeys(): Array<string>{
+  public UserTypeKeys(): Array<string>{
     let array = new Array<string>();
     let keys = Object.keys(UserType);
 
@@ -215,7 +215,7 @@ export class BoardComponent implements OnInit {
     return "";
   }
 
-  private ResizeMatrix() : void{
+  public ResizeMatrix() : void{
     this._gameService.UpdateBoardSize(this.boardSize);
     this.InitTwoDimensionalMatrix();
   }
